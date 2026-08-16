@@ -1,6 +1,7 @@
 package de.boxturnier.service;
 
 import de.boxturnier.model.AgeCategory;
+import de.boxturnier.model.Bout;
 import de.boxturnier.model.Boxer;
 import de.boxturnier.model.WeightCategory;
 import javafx.collections.FXCollections;
@@ -12,10 +13,15 @@ import java.util.Optional;
 /**
  * Verwaltet die für ein Turnier angemeldeten Boxer und ordnet ihnen automatisch
  * die passende Alters- und Gewichtsklasse nach DBV-Regelwerk zu (§11, §19).
+ *
+ * Verwaltet außerdem den Kampfplan für Veranstaltungen mit Einzelkämpfen
+ * (Turnier/Nachwuchsveranstaltung/Staffelkampf: jeder Boxer boxt genau einmal,
+ * die Paarungen werden manuell vom Veranstalter festgelegt).
  */
 public class ParticipantRegistry {
 
     private final ObservableList<Boxer> participants = FXCollections.observableArrayList();
+    private final ObservableList<Bout> fights = FXCollections.observableArrayList();
 
     /** Das Jahr, nach dem sich die Altersklasse richtet (§11 Abs. 2: Kalenderjahr-Stichtag). */
     private int competitionYear = java.time.Year.now().getValue();
@@ -65,6 +71,25 @@ public class ParticipantRegistry {
 
     public void removeBoxer(Boxer boxer) {
         participants.remove(boxer);
+    }
+
+    /**
+     * Legt einen Einzelkampf zwischen zwei Boxern an (Turnier/Staffelkampf-Modus:
+     * jeder Boxer boxt genau einmal, Paarung wird manuell festgelegt).
+     * Bewusst ohne Fehlerbehandlung/Gewichtsprüfung: die Paarung liegt in der
+     * Verantwortung des Veranstalters/Ringrichters.
+     */
+    public void addFight(Boxer red, Boxer blue, int numberOfJudges) {
+        Bout bout = new Bout(red, blue, red.getAssignedAgeCategory(), numberOfJudges);
+        fights.add(bout);
+    }
+
+    public void removeFight(Bout bout) {
+        fights.remove(bout);
+    }
+
+    public ObservableList<Bout> getFights() {
+        return fights;
     }
 
     public ObservableList<Boxer> getParticipants() {

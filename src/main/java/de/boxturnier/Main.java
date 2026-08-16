@@ -1,7 +1,9 @@
 package de.boxturnier;
 
 import de.boxturnier.service.ParticipantRegistry;
+import de.boxturnier.ui.KampfplanView;
 import de.boxturnier.ui.ParticipantView;
+import de.boxturnier.ui.TournamentBracketView;
 import de.boxturnier.ui.WeighInView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -11,6 +13,12 @@ import javafx.stage.Stage;
 
 /**
  * Einstiegspunkt der Boxturnier-Verwaltung.
+ *
+ * Hauptmodus: Turnier/Nachwuchsveranstaltung/Staffelkampf mit Einzelkämpfen
+ * (jeder Boxer boxt genau einmal, Paarungen werden manuell festgelegt, siehe
+ * Reiter "Kampfplan"). Der Reiter "Turnierbaum (Meisterschaft)" ist ein
+ * separater Baustein für spätere Meisterschaften mit automatischem K.o.-System
+ * und mehreren Runden pro Boxer.
  */
 public class Main extends Application {
 
@@ -24,10 +32,16 @@ public class Main extends Application {
         Tab wiegenTab = new Tab("Wiegen", new WeighInView(registry));
         wiegenTab.setClosable(false);
 
-        TabPane tabPane = new TabPane(anmeldungTab, wiegenTab);
+        Tab kampfplanTab = new Tab("Kampfplan", new KampfplanView(registry));
+        kampfplanTab.setClosable(false);
+
+        Tab bracketTab = new Tab("Turnierbaum (Meisterschaft)", new TournamentBracketView(registry));
+        bracketTab.setClosable(false);
+
+        TabPane tabPane = new TabPane(anmeldungTab, wiegenTab, kampfplanTab, bracketTab);
 
         stage.setTitle("Boxturnier-Software");
-        stage.setScene(new Scene(tabPane, 950, 620));
+        stage.setScene(new Scene(tabPane, 1050, 650));
         stage.show();
     }
 
