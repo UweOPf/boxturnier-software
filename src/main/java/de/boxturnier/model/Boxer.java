@@ -13,6 +13,7 @@ public class Boxer {
 
     private double officialWeightKg; // wird beim Wiegen gesetzt, abzgl. 300g Kleidung (§20 Abs. 2)
     private WeightCategory assignedWeightCategory;
+    private AgeCategory assignedAgeCategory; // bei Anmeldung ermittelt und "eingefroren" (§11)
     private int wins = 0;
     private int losses = 0;
 
@@ -70,6 +71,11 @@ public class Boxer {
     public WeightCategory getAssignedWeightCategory() { return assignedWeightCategory; }
     public void setAssignedWeightCategory(WeightCategory assignedWeightCategory) {
         this.assignedWeightCategory = assignedWeightCategory;
+    }
+
+    public AgeCategory getAssignedAgeCategory() { return assignedAgeCategory; }
+    public void setAssignedAgeCategory(AgeCategory assignedAgeCategory) {
+        this.assignedAgeCategory = assignedAgeCategory;
     }
 
     @Override
