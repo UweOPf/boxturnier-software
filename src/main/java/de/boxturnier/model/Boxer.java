@@ -11,7 +11,9 @@ public class Boxer {
     private final String nationality; // Regel 2.3: "Sport Nationality"
     private final String club;
 
-    private double officialWeightKg; // wird beim Wiegen gesetzt, abzgl. 300g Kleidung (§20 Abs. 2)
+    private double officialWeightKg; // Meldegewicht bei Anmeldung (Schätzung)
+    private Double scaleWeightKg;    // tatsächliches Gewicht von der Waage beim Wiegen (§20)
+    private boolean weighedIn = false;
     private WeightCategory assignedWeightCategory;
     private AgeCategory assignedAgeCategory; // bei Anmeldung ermittelt und "eingefroren" (§11)
     private int wins = 0;
@@ -67,6 +69,12 @@ public class Boxer {
 
     public double getOfficialWeightKg() { return officialWeightKg; }
     public void setOfficialWeightKg(double officialWeightKg) { this.officialWeightKg = officialWeightKg; }
+
+    public Double getScaleWeightKg() { return scaleWeightKg; }
+    public void setScaleWeightKg(Double scaleWeightKg) { this.scaleWeightKg = scaleWeightKg; }
+
+    public boolean isWeighedIn() { return weighedIn; }
+    public void setWeighedIn(boolean weighedIn) { this.weighedIn = weighedIn; }
 
     public WeightCategory getAssignedWeightCategory() { return assignedWeightCategory; }
     public void setAssignedWeightCategory(WeightCategory assignedWeightCategory) {

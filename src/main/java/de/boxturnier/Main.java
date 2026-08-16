@@ -2,8 +2,11 @@ package de.boxturnier;
 
 import de.boxturnier.service.ParticipantRegistry;
 import de.boxturnier.ui.ParticipantView;
+import de.boxturnier.ui.WeighInView;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
 /**
@@ -15,10 +18,16 @@ public class Main extends Application {
     public void start(Stage stage) {
         ParticipantRegistry registry = new ParticipantRegistry();
 
-        ParticipantView participantView = new ParticipantView(registry);
+        Tab anmeldungTab = new Tab("Anmeldung", new ParticipantView(registry));
+        anmeldungTab.setClosable(false);
 
-        stage.setTitle("Boxturnier-Software – Teilnehmerverwaltung");
-        stage.setScene(new Scene(participantView, 900, 600));
+        Tab wiegenTab = new Tab("Wiegen", new WeighInView(registry));
+        wiegenTab.setClosable(false);
+
+        TabPane tabPane = new TabPane(anmeldungTab, wiegenTab);
+
+        stage.setTitle("Boxturnier-Software");
+        stage.setScene(new Scene(tabPane, 950, 620));
         stage.show();
     }
 

@@ -35,13 +35,26 @@ public class ParticipantRegistry {
         participants.add(boxer);
     }
 
+    /**
+     * Trägt das beim Wiegen ermittelte Gewicht ein und bestimmt die Gewichtsklasse
+     * verbindlich neu auf Basis dieses Waage-Gewichts (§20: das Meldegewicht bei der
+     * Anmeldung ist nur eine Schätzung, verbindlich ist das Wiegen).
+     */
+    public void recordWeighIn(Boxer boxer, double scaleWeightKg) {
+        boxer.setScaleWeightKg(scaleWeightKg);
+        boxer.setWeighedIn(true);
+        WeightCategory match = findMatchingWeightCategory(
+                boxer.getAssignedAgeCategory(), boxer.getGender(), scaleWeightKg);
+        boxer.setAssignedWeightCategory(match);
+    }
+
     public Optional<WeightCategory> findMatchingWeightCategoryOptional(AgeCategory ageCategory,
                                                                         WeightCategory.Gender gender,
                                                                         double weightKg) {
         return Optional.ofNullable(findMatchingWeightCategory(ageCategory, gender, weightKg));
     }
 
-    private WeightCategory findMatchingWeightCategory(AgeCategory ageCategory, WeightCategory.Gender gender,
+    public WeightCategory findMatchingWeightCategory(AgeCategory ageCategory, WeightCategory.Gender gender,
                                                         double weightKg) {
         List<WeightCategory> table = WeightCategory.tableFor(ageCategory, gender);
         return table.stream()
